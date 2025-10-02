@@ -1,0 +1,34 @@
+<#
+.SYNOPSIS
+    Adding and enabling EnableCertPaddingCheck registry value.
+    Please test thoroughly in a non-production environment before deploying widely.
+    Make sure to run as Administrator or with appropriate privileges.
+
+.NOTES
+    Author        : Andres Torres
+    Date Created  : 2025-07-23
+    Last Modified : 2024-07-23
+    Version       : 1.0
+
+.TESTED ON
+    Date(s) Tested  : 2025-07-23
+    Tested By       : Andres Torres
+    Systems Tested  : Windows Server 2019 Datacenter, Build 1809
+    PowerShell Ver. : 5.1.17763.6189
+
+.USAGE
+    EnableCertPaddingCheck is a Windows registry setting that enables stricter validation of Authenticode signatures.
+    Windows performs an additional check for excessive certificate padding in portable executable (PE) files
+ #>
+
+# 'reg add' Tells Windows you want to add a new registry subkey or value
+# HKLM stands for HKEY_LOCAL_MACHINE
+# "HKLM\Software\Microsoft\Cryptography\Wintrust\Config" Specifies the registry path (key) where the value is to be added
+# /v "EnableCertPaddingCheck" Names the registry value to be added
+# /t REG_SZ Sets the value type as a string
+# /d "1" Sets the contents (data) of the value to "1"
+# /f Will not prompted to confirm the change, even if overwriting an existing value. 
+reg add "HKLM\Software\Microsoft\Cryptography\Wintrust\Config" /v "EnableCertPaddingCheck" /t REG_SZ /d "1" /f
+
+# Repeat but for 64-bit WoW64 Subkey for compatability with 32-bit applications with a 64-bit Windows OS
+reg add "HKLM\Software\WOW6432Node\Microsoft\Cryptography\Wintrust\Config" /v "EnableCertPaddingCheck" /t REG_SZ /d "1" /f
