@@ -1,1 +1,1 @@
-# Automated remediation code for made up enterprise home lab
+# Automated remediation scripting for a simulated enterprise laboratory environment
